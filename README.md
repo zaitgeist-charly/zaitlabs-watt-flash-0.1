@@ -21,6 +21,12 @@ wf.decide(state, questions)                       # {qid: probabilities}
 wf.decide_batch([(state1, qs1), (state2, qs2)])   # several requests, one forward pass
 ```
 
+Local server in the Jev format (`POST /v1/systemone`):
+
+```bash
+uv run python -m watt_flash.serve --port 8942
+```
+
 Free test API:
 
 ```bash
