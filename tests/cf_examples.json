@@ -1,0 +1,50 @@
+[
+  {
+    "name": "usage",
+    "input": {
+      "state": "Help! My payouts have been failing for 3 days.",
+      "questions": {
+        "is_urgent": {"type": "noul", "instructions": "Does this convey urgency?", "criteria": {"true": "Explicitly time-sensitive", "false": "No urgency expressed"}},
+        "department": {"type": "choice", "instructions": "Which team should handle this?", "criteria": {"billing": "Payments, invoicing, refunds", "technical": "Bugs, outages, integrations", "sales": "Pricing, upgrades, new accounts"}},
+        "frustration": {"type": "score", "instructions": "How frustrated is the customer?", "criteria": ["Calm", "Frustrated", "Very angry"]}
+      }
+    },
+    "jev": {"is_urgent": 0.95, "department": "billing", "frustration": 1.04}
+  },
+  {
+    "name": "structured_refund_review",
+    "input": {
+      "state": {
+        "ticket": {"subject": "Duplicate charge", "message": "I was charged twice for order A-104. Please refund the duplicate."},
+        "order": {"id": "A-104", "charges": [{"amount_usd": 49, "status": "captured"}, {"amount_usd": 49, "status": "captured"}]},
+        "refund_policy": "Duplicate charges are eligible for a refund."
+      },
+      "questions": {
+        "refund_requested": {"type": "noul", "instructions": "Does `ticket.message` request a refund?"},
+        "policy_supports_refund": {"type": "noul", "instructions": "Does `refund_policy` support the refund requested in `ticket.message`, given `order.charges`?"}
+      }
+    },
+    "jev": {"refund_requested": 0.99, "policy_supports_refund": 0.98}
+  },
+  {
+    "name": "support_department_routing",
+    "input": {
+      "state": "I cannot log in after changing my password, and the reset email never arrives.",
+      "questions": {
+        "department": {"type": "choice", "instructions": "Which team should handle this support request?", "criteria": {"account": "Login, password, profile, or security issues", "billing": "Charges, invoices, refunds, or subscriptions", "technical": "Product bugs, outages, or integrations", "other": "Requests that do not fit the other departments"}}
+      }
+    },
+    "jev": {"department": "account"}
+  },
+  {
+    "name": "account_risk_assessment",
+    "input": {
+      "state": {"account_age_days": 12, "recent_events": ["Five failed login attempts", "Password reset requested from a new country", "Successful login from the usual device"], "account_verified": true},
+      "questions": {
+        "risk_level": {"type": "score", "instructions": "How risky does this account activity appear?", "criteria": ["Low risk: activity is consistent with the account history", "Moderate risk: some unusual activity needs monitoring", "High risk: multiple strong indicators of account compromise"]},
+        "escalate": {"type": "noul", "instructions": "Should this account be escalated for manual security review?", "criteria": {"true": "The activity warrants immediate human review", "false": "The activity can be handled with normal automated controls"}}
+      }
+    },
+    "jev": {"risk_level": 1.84, "escalate": 0.81}
+  }
+]

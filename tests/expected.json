@@ -1,0 +1,47 @@
+{
+ "structured_refund_review": {
+  "refund_requested": [
+   0.092577,
+   0.907423
+  ],
+  "policy_supports_refund": [
+   0.293791,
+   0.706209
+  ]
+ },
+ "account_risk_assessment": {
+  "risk_level": [
+   0.315282,
+   0.280776,
+   0.403943
+  ],
+  "escalate": [
+   0.507635,
+   0.492365
+  ]
+ },
+ "usage": {
+  "is_urgent": [
+   0.374304,
+   0.625696
+  ],
+  "department": [
+   0.494047,
+   0.250892,
+   0.255061
+  ],
+  "frustration": [
+   0.087287,
+   0.689101,
+   0.223612
+  ]
+ },
+ "support_department_routing": {
+  "department": [
+   0.959791,
+   0.009727,
+   0.017656,
+   0.012826
+  ]
+ }
+}
