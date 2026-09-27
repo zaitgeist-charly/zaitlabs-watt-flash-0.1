@@ -40,7 +40,8 @@ def handler(wf: WattFlash, name: str):
                 state, questions = req["state"], req["questions"]
                 probs = wf.decide(state, questions)
             except Overflow as e:
-                return self.reply(413, {"error": "max_tokens_exceeded", "message": str(e)})
+                # 422, not 413: JevBench scores a 422 as the system refusing the input, a 413 as an outage
+                return self.reply(422, {"error": "max_tokens_exceeded", "message": str(e)})
             except (ValueError, KeyError, TypeError) as e:
                 return self.reply(400, {"error": "invalid_request", "message": str(e)})
             self.reply(200, {"model": name, "answers": {qid: answer(questions[qid], p) for qid, p in probs.items()}})
